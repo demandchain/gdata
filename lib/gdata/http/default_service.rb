@@ -24,14 +24,22 @@ module GData
     # or cannot use Net::HTTP for some reason.
     class DefaultService
     
+      RootCA = '/etc/ssl/certs'
+
       # Take a GData::HTTP::Request, execute the request, and return a
       # GData::HTTP::Response object.
       def make_request(request)
         url = URI.parse(request.url)
         http = Net::HTTP.new(url.host, url.port)
         http.use_ssl = (url.scheme == 'https')
-        http.verify_mode = OpenSSL::SSL::VERIFY_PEER
-        
+        if File.directory? RootCA
+          http.ca_path = RootCA
+          http.verify_mode = OpenSSL::SSL::VERIFY_PEER
+          http.vertify_depth = 5
+        else
+          http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+        end
+
         case request.method
         when :get
           req = Net::HTTP::Get.new(url.request_uri)
