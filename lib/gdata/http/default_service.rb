@@ -35,7 +35,7 @@ module GData
         if File.directory? RootCA
           http.ca_path = RootCA
           http.verify_mode = OpenSSL::SSL::VERIFY_PEER
-          http.vertify_depth = 5
+          http.verify_depth = 5
         else
           http.verify_mode = OpenSSL::SSL::VERIFY_NONE
         end
