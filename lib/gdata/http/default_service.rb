@@ -30,7 +30,7 @@ module GData
         url = URI.parse(request.url)
         http = Net::HTTP.new(url.host, url.port)
         http.use_ssl = (url.scheme == 'https')
-        http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+        http.verify_mode = OpenSSL::SSL::VERIFY_PEER
         
         case request.method
         when :get
