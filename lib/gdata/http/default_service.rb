@@ -37,6 +37,7 @@ module GData
           http.verify_mode = OpenSSL::SSL::VERIFY_PEER
           http.verify_depth = 5
         else
+          puts "WARNING: can't find CA certs"
           http.verify_mode = OpenSSL::SSL::VERIFY_NONE
         end
 
